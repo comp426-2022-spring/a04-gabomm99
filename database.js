@@ -3,7 +3,7 @@ const logData = require("better-sqlite3")
 const logdb = new logData("log.db")
 
 // Is the database initialized or do we need to initialize it?
-const stmt = db.prepare(`
+const stmt = logdb.prepare(`
     SELECT name FROM sqlite_master WHERE type='table' and name='accesslog';`
     );
 // Define row using `get()` from better-sqlite3
@@ -29,7 +29,7 @@ if (row === undefined) {
             );
     `
 // Execute SQL commands that we just wrote above.
-    db.exec(sqlInit);
+    logdb.exec(sqlInit);
 } else {
 // Since the database already exists, echo that to the console.
     console.log('Log Data Base already created.')

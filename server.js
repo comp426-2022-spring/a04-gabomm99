@@ -70,11 +70,9 @@ if (args.help || args.h) {
     process.exit(0)
 }
 args["port"]
-var port = args.port || process.env.PORT || 5555
+var port = args.port || process.env.PORT || 5000
 
-//Using express to get body field trhough URL or json
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+
 
 const fs = require('fs')
 const morgan = require('morgan')
@@ -83,6 +81,9 @@ const db = require("./database.js")
 //Requiring express for the whole app
 const express = require('express')
 const app = express()
+//Using express to get body field trhough URL or json
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 const server = app.listen(port, () =>{
     console.log('App is running on port %PORT%'.replace('%PORT%', port))
