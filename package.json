@@ -1,0 +1,30 @@
+{
+  "name": "a04-gabomm99",
+  "version": "0.1.1",
+  "description": "Logging errors and connecting database",
+  "main": "server.js",
+  "scripts": {
+    "test": "npm nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/comp426-2022-spring/a04-gabomm99.git"
+  },
+  "keywords": [
+    "dtabase",
+    "errors",
+    "logging"
+  ],
+  "author": "gabomm99",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/comp426-2022-spring/a04-gabomm99/issues"
+  },
+  "homepage": "https://github.com/comp426-2022-spring/a04-gabomm99#readme",
+  "dependencies": {
+    "better-sqlite3": "^7.5.1",
+    "express": "^4.17.3",
+    "minimist": "^1.2.6",
+    "morgan": "^1.10.0"
+  }
+}
