@@ -70,7 +70,7 @@ if (args.help || args.h) {
     process.exit(0)
 }
 args["port"]
-var port = args.port || process.env.PORT || 5000
+var port = args.port || process.env.PORT || 5555
 
 
 
@@ -111,7 +111,7 @@ app.use( (req, res, next) => {
     referer: req.headers['referer'],
     useragent: req.headers['user-agent']
 }
-  const stmt = db.prepare('INSERT INTO accesslog (id INTEGER PRIMARY KEY, remoteaddr, remoteuser, time, method, url, protocol, httpversion, status, referrer, useragent) VALUES (?, ?)')
+  const stmt = db.prepare('INSERT INTO accesslog (remoteaddr, remoteuser, time, method, url, protocol, httpversion, status, referrer, useragent) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')
   const newData = stmt.run(logdata.remoteaddr, logdata.remoteuser, logdata.time,
     logdata.method, logdata.url, logdata.protocol, logdata.httpversion, logdata.status,
     logdata.referer, logdata.useragent)
@@ -172,6 +172,6 @@ app.get('/app/flip/call/tails', (req, res) => {
 })
 
 app.use(function(req, res){
-    res.status(404).send("Endpoint does not exist")
-    res.type('text/plain')
+  res.type('text/plain')
+  res.status(404).send("Endpoint does not exist")
 })
