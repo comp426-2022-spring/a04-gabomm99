@@ -95,7 +95,7 @@ if(args.debug == true){
   app.get('/app/log/access', (req, res) =>{
     console.log("in app/log/acces")
     try {
-      const stmt = db.prepare('SELECT * FROM acceslog').all()
+      const stmt = db.prepare('SELECT * FROM accesslog').all()
       res.status(200).json(stmt)
   } catch (error){
       console.error(error)
