@@ -46,7 +46,6 @@ function flipACoin(call) {
 
 const args = require("minimist")(process.argv.slice(2))
 args['port', 'debug', 'log', 'help'];
-console.log(args)
 var port = args.port || process.env.PORT || 5555
 
 
@@ -91,8 +90,8 @@ const server = app.listen(port, () =>{
 })
 
 //MIDDLEWARE
-if(args.debug === 'true'){
-  console.log(args.debug)
+if(args.debug == true){
+  console.log(args['debug'])
   app.get('/app/log/access', (req, res) =>{
     console.log("in app/log/acces")
     try {
@@ -107,7 +106,7 @@ if(args.debug === 'true'){
   })
 }
 
-if(args.log == 'true'){
+if(args.log == true){
   console.log(args['debug'])
   // Create a write stream to append to an access.log file
   const accessLog = fs.createWriteStream('access.log', { flags: 'a' })
