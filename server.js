@@ -97,8 +97,8 @@ if(args.debug == true){
     try {
       const stmt = db.prepare('SELECT * FROM acceslog').all()
       res.status(200).json(stmt)
-  } catch {
-      console.error(e)
+  } catch (error){
+      console.error(error)
   }
   })
   app.get('/app/error', (req,res) =>{
