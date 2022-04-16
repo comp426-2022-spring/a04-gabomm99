@@ -44,10 +44,25 @@ function flipACoin(call) {
 
 
 
-
-
-
 const args = require("minimist")(process.argv.slice(2))
+args['port', 'debug', 'log', 'help'];
+var port = args.port || process.env.PORT || 5555
+
+
+
+const fs = require('fs')
+const morgan = require('morgan')
+//"Importing database script"
+const db = require("./database.js")
+//Requiring express for the whole app
+const express = require('express')
+const app = express()
+//Using express to get body field trhough URL or json
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+
+
 const help = (`
 server.js [options]
 
@@ -69,36 +84,37 @@ if (args.help || args.h) {
     console.log(help)
     process.exit(0)
 }
-args["port"]
-var port = args.port || process.env.PORT || 5555
-
-
-
-const fs = require('fs')
-const morgan = require('morgan')
-//"Importing database script"
-const db = require("./database.js")
-//Requiring express for the whole app
-const express = require('express')
-const app = express()
-//Using express to get body field trhough URL or json
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
 
 const server = app.listen(port, () =>{
     console.log('App is running on port %PORT%'.replace('%PORT%', port))
 })
 
 //MIDDLEWARE
+if(args.debug == true){
+  console.log(args['debug'])
+  app.get('/app/log/access', (req, res) =>{
+    console.log("in app/log/acces")
+    try {
+      const stmt = db.prepare('SELECT * FROM acceslog').all()
+      res.status(200).json(stmt)
+  } catch {
+      console.error(e)
+  }
+  })
+  app.get('/app/error', (req,res) =>{
+    throw new Error('Error test successful.')
+  })
+}
 
-if(args['log'] != false){
+if(args.log == true){
+  console.log(args['debug'])
   // Create a write stream to append to an access.log file
   const accessLog = fs.createWriteStream('access.log', { flags: 'a' })
   // Set up the access logging middleware
   app.use(morgan('combined', { stream: accessLog }))
 }
 
-app.use( (req, res, next) => {
+app.use((req, res, next) => {
   let logdata = {
     remoteaddr: req.ip,
     remoteuser: req.user,
@@ -118,20 +134,6 @@ app.use( (req, res, next) => {
     next()
   })
 //MIDDLEWARE
-
-if(args['debug'] == true){
-  app.get('/app/log/access', (req, res) =>{
-    try {
-      const stmt = db.prepare('SELECT * FROM acceslog').all()
-      res.status(200).json(stmt)
-  } catch {
-      console.error(e)
-  }
-  })
-  app.get('/app/error', (req,res) =>{
-    throw new Error('Error test successful.')
-  })
-}
 
 
 app.get('/app', (req, res) => {
